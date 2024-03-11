@@ -71,7 +71,7 @@ import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue
 
 let ebooks = ref([])
 
-axios.get("http://localhost:9011/ebook/list").then(res => {
+axios.get("/ebook/list").then(res => {
   ebooks.value = res?.data?.data
 })
 
