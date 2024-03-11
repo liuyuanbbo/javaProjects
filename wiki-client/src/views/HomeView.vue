@@ -38,7 +38,27 @@
       </a-menu>
     </a-layout-sider>
     <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
-      Content
+      <a-list item-layout="vertical" size="default" :grid="{ gutter: 20, column: 3 }" :pagination="pagination"
+              :data-source="ebooks">
+        <template #renderItem="{ item }">
+          <a-list-item key="item.name">
+            <template #actions>
+          <span v-for="{ icon, text } in icons" :key="icon">
+            <component :is="icon" style="margin-right: 8px"/>
+            {{ text }}
+          </span>
+            </template>
+            <a-list-item-meta :description="item.description">
+              <template #title>
+                <a :href="item.href">{{ item.name }}</a>
+              </template>
+              <template #avatar>
+                <a-avatar :src="item.cover"/>
+              </template>
+            </a-list-item-meta>
+          </a-list-item>
+        </template>
+      </a-list>
     </a-layout-content>
   </a-layout>
 </template>
@@ -46,9 +66,32 @@
 <script setup lang="ts">
 
 import axios from "axios";
+import {ref} from "vue";
+import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue';
+
+let ebooks = ref([])
 
 axios.get("http://localhost:9011/ebook/list").then(res => {
-  console.log(res.data)
+  ebooks.value = res?.data?.data
 })
 
+const pagination = {
+  pageSize: 3,
+};
+const icons: Record<string, any>[] = [
+  {icon: StarOutlined, text: '156'},
+  {icon: LikeOutlined, text: '156'},
+  {icon: MessageOutlined, text: '2'},
+];
+
 </script>
+
+<style scoped>
+.ant-avatar {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 8%;
+  margin: 5px 0;
+}
+</style>
