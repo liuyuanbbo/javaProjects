@@ -3,6 +3,7 @@
     <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
       <a-table
           :columns="columns"
+          :row-key="record=>record.id"
           :data-source="ebooks"
           :pagination="pagination"
           :loading="loading"
@@ -76,21 +77,30 @@ const loading = ref(false)
 // 数据查询
 const handleQuery = (param: BasePageRequest | any) => {
   loading.value = true
-  axios.get("/ebook/list", param).then(res => {
+  axios.get(`/ebook/list`, {
+    params: {
+      pageNum: param.pageNum,
+      pageSize: param.pageSize
+    }
+  }).then(res => {
     loading.value = false
-    ebooks.value = res?.data?.data
+    ebooks.value = res?.data?.data?.items
     //重置分页按钮
-    pagination.value.current = param.page
+    pagination.value.current = param.pageNum
+    pagination.value.total = res?.data?.data?.total
   })
 }
 
-handleQuery({})
+handleQuery({
+  pageNum: 1,
+  pageSize: 3
+})
 
 // 点击页码时触发
-const handleTableChange = () => {
+const handleTableChange = (paginationParam: any) => {
   handleQuery({
-    page: pagination.value.current,
-    size: pagination.value.pageSize
+    pageNum: paginationParam.current,
+    pageSize: paginationParam.pageSize
   })
 }
 

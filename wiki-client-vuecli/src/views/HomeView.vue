@@ -38,7 +38,7 @@
       </a-menu>
     </a-layout-sider>
     <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
-      <a-list item-layout="vertical" size="default" :grid="{ gutter: 20, column: 3 }" :pagination="pagination"
+      <a-list item-layout="vertical" size="default" :grid="{ gutter: 20, column: 3 }"
               :data-source="ebooks">
         <template #renderItem="{ item }">
           <a-list-item key="item.name">
@@ -71,18 +71,19 @@ import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue
 
 let ebooks = ref([])
 
-axios.get("/ebook/list").then(res => {
-  ebooks.value = res?.data?.data
-})
-
-const pagination = {
-  pageSize: 3,
-};
 const icons: Record<string, any>[] = [
   {icon: StarOutlined, text: '156'},
   {icon: LikeOutlined, text: '156'},
   {icon: MessageOutlined, text: '2'},
 ];
+
+axios.get("/ebook/list", {
+  params: {
+    pageSize: 1000
+  }
+}).then(res => {
+  ebooks.value = res?.data?.data?.items
+})
 
 </script>
 

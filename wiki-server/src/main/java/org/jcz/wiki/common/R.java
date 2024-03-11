@@ -5,6 +5,10 @@ public class R<T> {
     private String msg;
     private T data;
 
+    public R() {
+        this(CodeMsg.OK);
+    }
+
     public R(CodeMsg cm) {
         this.code = cm.getCode();
         this.msg = cm.getMsg();
