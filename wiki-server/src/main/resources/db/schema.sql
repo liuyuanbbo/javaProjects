@@ -1,4 +1,4 @@
-create table ebook
+create table tb_ebook
 (
     id           bigint       not null primary key auto_increment comment '主键自增Id',
     name         varchar(60)  not null comment '书名',

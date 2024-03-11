@@ -4,4 +4,4 @@ spring:
   application:
     name: wiki-server
   config:
-    import: conf/mariadb-mytest.yml
+    import: conf/mariadb-mytest.yml,conf/mybatis-config.yml,conf/common.yml,

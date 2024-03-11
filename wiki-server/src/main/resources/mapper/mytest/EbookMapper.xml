@@ -3,7 +3,34 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.jcz.wiki.mapper.mytest.EbookMapper">
-    <select id="list" resultType="org.jcz.wiki.model.Ebook">
-        select * from tb_eqb_test
+    <resultMap id="baseMap" type="org.jcz.wiki.model.Ebook">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category1_id" property="category1Id"/>
+        <result column="category2_id" property="category2Id"/>
+        <result column="description" property="description"/>
+        <result column="cover" property="cover"/>
+        <result column="doc_count" property="docCount"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="vote_count" property="voteCount"/>
+    </resultMap>
+
+    <sql id="baseSql">
+        id,name,category1_id,category2_id,description,cover,doc_count,view_count,vote_count
+    </sql>
+
+    <select id="list" resultMap="baseMap">
+        select
+        <include refid="baseSql"/>
+        from tb_ebook
+    </select>
+
+    <select id="likeList" resultMap="baseMap">
+        select
+        <include refid="baseSql"/>
+        from tb_ebook
+        <if test="bookName!=null and bookName!=''">
+            where name like concat('',#{bookName},'%')
+        </if>
     </select>
 </mapper>
