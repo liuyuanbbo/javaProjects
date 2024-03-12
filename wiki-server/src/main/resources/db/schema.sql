@@ -8,6 +8,7 @@ create table tb_ebook
     cover        varchar(200) not null comment '封面',
     doc_count    int          not null comment '文档数',
     view_count   int          not null comment '阅读数',
-    vote_count   int          not null comment '点赞数'
+    vote_count   int          not null comment '点赞数',
+    is_deleted   tinyint(1)   not null default 0 comment '是否删除 0-未删除 1-删除'
 );
 

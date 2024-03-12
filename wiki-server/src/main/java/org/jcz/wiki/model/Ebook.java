@@ -1,8 +1,6 @@
 package org.jcz.wiki.model;
 
-import java.io.Serializable;
-
-public class Ebook implements Serializable {
+public class Ebook extends BaseModel {
     private Long id;
     private String name;
     private Integer category1Id;
