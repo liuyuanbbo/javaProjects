@@ -11,4 +11,10 @@ public interface EbookMapper {
 
     // 根据书名模糊查询电子书(分页)
     List<Ebook> likeList(@Param("bookName") String bookName);
+
+    // 插入电子书
+    void insert(Ebook ebook);
+
+    // 更新电子书
+    void update(Ebook ebook);
 }

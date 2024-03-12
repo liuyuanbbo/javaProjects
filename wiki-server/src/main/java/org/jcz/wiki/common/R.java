@@ -1,7 +1,7 @@
 package org.jcz.wiki.common;
 
 public class R<T> {
-    private Integer code;
+    private String code;
     private String msg;
     private T data;
 
@@ -19,11 +19,11 @@ public class R<T> {
         this.data = data;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

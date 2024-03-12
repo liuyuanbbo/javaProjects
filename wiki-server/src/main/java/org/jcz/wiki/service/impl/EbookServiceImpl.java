@@ -38,4 +38,16 @@ public class EbookServiceImpl implements EbookService {
         pageR.setItems(pageInfo.getList());
         return pageR;
     }
+
+    @Override
+    public void insertOrUpdate(Ebook ebook) {
+        Long id = ebook.getId();
+        // 执行插入
+        if (id == null) {
+            ebookMapper.insert(ebook);
+        } else {
+            // 执行更新
+            ebookMapper.update(ebook);
+        }
+    }
 }

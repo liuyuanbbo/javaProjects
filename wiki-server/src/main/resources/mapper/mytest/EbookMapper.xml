@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.jcz.wiki.mapper.mytest.EbookMapper">
+    <!--基础数据库字段<>java实体映射-->
     <resultMap id="baseMap" type="org.jcz.wiki.model.Ebook">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
@@ -15,16 +16,19 @@
         <result column="vote_count" property="voteCount"/>
     </resultMap>
 
+    <!--基础查询字段-->
     <sql id="baseSql">
         id,name,category1_id,category2_id,description,cover,doc_count,view_count,vote_count
     </sql>
 
+    <!--分页查询所有记录-->
     <select id="list" resultMap="baseMap">
         select
         <include refid="baseSql"/>
         from tb_ebook
     </select>
 
+    <!--根据书名分页查询所有记录-->
     <select id="likeList" resultMap="baseMap">
         select
         <include refid="baseSql"/>
@@ -33,4 +37,88 @@
             where name like concat('',#{bookName},'%')
         </if>
     </select>
+
+    <!--插入/更新数据库-->
+    <insert id="insert" parameterType="org.jcz.wiki.model.Ebook">
+        insert into tb_ebook
+        <trim prefix="( " suffix=" )" suffixOverrides=",">
+            <if test="name!=null and name!=''">
+                name,
+            </if>
+            <if test="category1Id!=null and category1Id!=''">
+                category1_id,
+            </if>
+            <if test="category2Id!=null and category2Id!=''">
+                category2_id,
+            </if>
+            description,
+            <if test="cover!=null and cover!=''">
+                cover,
+            </if>
+            <if test="docCount!=null and docCount!=''">
+                doc_count,
+            </if>
+            <if test="viewCount!=null and viewCount!=''">
+                view_count,
+            </if>
+            <if test="voteCount!=null and voteCount!=''">
+                vote_count,
+            </if>
+        </trim>
+        <trim prefix="values ( " suffix=" ) " suffixOverrides=",">
+            <if test="name!=null and name!=''">
+                #{name},
+            </if>
+            <if test="category1Id!=null and category1Id!=''">
+                #{category1Id},
+            </if>
+            <if test="category2Id!=null and category2Id!=''">
+                #{category2Id},
+            </if>
+            #{description},
+            <if test="cover!=null and cover!=''">
+                #{cover},
+            </if>
+            <if test="docCount!=null and docCount!=''">
+                #{docCount},
+            </if>
+            <if test="viewCount!=null and viewCount!=''">
+                #{viewCount},
+            </if>
+            <if test="voteCount!=null and voteCount!=''">
+                #{voteCount},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="org.jcz.wiki.model.Ebook">
+        update tb_ebook
+        <trim prefix=" set " suffixOverrides=",">
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="category1Id!=null and category1Id!=''">
+                category1_id=#{category1Id},
+            </if>
+            <if test="category2Id!=null and category2Id!=''">
+                category2_id=#{category2Id},
+            </if>
+            description=#{description},
+            <if test="cover!=null and cover!=''">
+                cover=#{cover},
+            </if>
+            <if test="docCount!=null and docCount!=''">
+                doc_count=#{docCount},
+            </if>
+            <if test="viewCount!=null and viewCount!=''">
+                view_count=#{viewCount},
+            </if>
+            <if test="voteCount!=null and voteCount!=''">
+                vote_count=#{voteCount}
+            </if>
+        </trim>
+        <if test="id!=null and id!=''">
+            where id=#{id}
+        </if>
+    </update>
 </mapper>
