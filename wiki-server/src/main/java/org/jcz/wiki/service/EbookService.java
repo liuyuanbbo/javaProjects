@@ -12,4 +12,7 @@ public interface EbookService {
 
     // 插入/更新 电子书
     void insertOrUpdate(Ebook ebook);
+
+    // 根据id软删除电子书
+    void delete(Long id);
 }

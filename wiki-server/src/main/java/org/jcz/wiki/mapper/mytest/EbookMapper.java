@@ -17,4 +17,7 @@ public interface EbookMapper {
 
     // 更新电子书
     void update(Ebook ebook);
+
+    // 根据id软删除电子书
+    void delete(@Param("id") Long id);
 }

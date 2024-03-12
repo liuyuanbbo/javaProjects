@@ -41,7 +41,7 @@
         is_deleted=0
     </select>
 
-    <!--插入/更新数据库-->
+    <!--插入数据库-->
     <insert id="insert" parameterType="org.jcz.wiki.model.Ebook">
         insert into tb_ebook
         <trim prefix="( " suffix=" )" suffixOverrides=",">
@@ -94,6 +94,7 @@
         </trim>
     </insert>
 
+    <!--更新数据库-->
     <update id="update" parameterType="org.jcz.wiki.model.Ebook">
         update tb_ebook
         <trim prefix=" set " suffixOverrides=",">
@@ -124,4 +125,9 @@
             where id=#{id}
         </if>
     </update>
+
+    <!--根据id 软删除-->
+    <delete id="delete" parameterType="java.lang.Long">
+        update tb_ebook set is_deleted=1 where id=#{id} and is_deleted=0
+    </delete>
 </mapper>

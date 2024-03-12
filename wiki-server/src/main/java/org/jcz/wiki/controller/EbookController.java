@@ -35,4 +35,10 @@ public class EbookController {
         ebookServiceImpl.insertOrUpdate(ebook);
         return R.success();
     }
+
+    @PostMapping("/delete")
+    public R<?> delete(@RequestParam("id") Long id) {
+        ebookServiceImpl.delete(id);
+        return R.success();
+    }
 }

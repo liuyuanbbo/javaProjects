@@ -15,7 +15,13 @@
           <template v-else-if="column.key === 'operations'">
             <a-space size="small">
               <a-button type="primary" @click="showModal(record)">编辑</a-button>
-              <a-button type="primary" danger>删除</a-button>
+              <a-popconfirm title="您确定要删除此记录吗? " ok-text="确定" cancel-text="取消"
+                            @confirm="delEbookById(record.id)">
+                <template #icon>
+                  <delete-outlined style="color: red"/>
+                </template>
+                <a-button type="primary" danger>删除</a-button>
+              </a-popconfirm>
             </a-space>
           </template>
         </template>
@@ -53,6 +59,8 @@
       </a-form-item>
     </a-form>
   </a-modal>
+
+
 </template>
 
 <script setup lang="ts">
@@ -60,6 +68,7 @@
 import {ref} from "vue";
 import axios from "axios";
 import {BasePageRequest} from "@/types/CommonPageReq"
+import {DeleteOutlined} from '@ant-design/icons-vue';
 
 const columns = [
   {
@@ -133,6 +142,7 @@ const showModal = (record: any) => {
   ebk.value = record
 };
 
+// (修改)电子书表单
 const editEbook = () => {
   confirmLoading.value = true;
   axios.post("/ebook/insertOrUpdate", ebk.value).then(resp => {
@@ -148,6 +158,22 @@ const editEbook = () => {
     }
   })
 };
+
+// 根据id进行电子书软删除
+const delEbookById = (id: number) => {
+  console.log('待删除的id', id)
+  axios.post(`/ebook/delete?id=` + id).then(resp => {
+    const isSuccess = resp.data?.code === '000000'
+    if (isSuccess) {
+      // 重新加载
+      handleQuery({
+        pageNum: pagination.value.current,
+        pageSize: pagination.value.pageSize
+      })
+    }
+  })
+}
+
 
 // 数据查询
 const handleQuery = (param: BasePageRequest | any) => {
